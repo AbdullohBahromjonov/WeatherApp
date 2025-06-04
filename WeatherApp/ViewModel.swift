@@ -19,7 +19,7 @@ class WeatherViewModel: ObservableObject {
     @Published var state: ViewModelState = .neutral
     
     func getWeather(for city: String) async {
-        state = .loading
+        
         
         let urlString = "\(baseUrl)forecast?q=\(city)&appid=\(apiKey)"
         
@@ -40,11 +40,12 @@ class WeatherViewModel: ObservableObject {
                 return
             }
             
-            fiveDayForecast = try JSONDecoder().decode(ForecastResponse.self, from: data)
+            try await MainActor.run {
+                fiveDayForecast = try JSONDecoder().decode(ForecastResponse.self, from: data)
+            }
         } catch {
             print("ERROR: \(error)")
         }
-        
     }
     
     func reset() {
