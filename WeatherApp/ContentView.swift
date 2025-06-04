@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var viewModel = WeatherViewModel()
+    
     var body: some View {
         VStack {
             Image(systemName: "globe")
@@ -16,6 +18,10 @@ struct ContentView: View {
             Text("Hello, world!")
         }
         .padding()
+        .onAppear {
+            viewModel.getWeather(for: "Moscow")
+            print(viewModel.fiveDayForecast)
+        }
     }
 }
 
