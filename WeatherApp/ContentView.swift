@@ -18,9 +18,9 @@ struct ContentView: View {
             Text("Hello, world!")
         }
         .padding()
-        .onAppear {
-            viewModel.getWeather(for: "Moscow")
-            print(viewModel.fiveDayForecast)
+        .task {
+            await viewModel.getWeather(for: "Moscow")
+            print(viewModel.fiveDayForecast ?? "NOTHING")
         }
     }
 }
